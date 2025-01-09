@@ -16,7 +16,7 @@ public class Buu_Controller : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             WalkF();
         }
@@ -25,7 +25,7 @@ public class Buu_Controller : MonoBehaviour
             StopWalkingF();
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             WalkB();
         }
@@ -34,12 +34,12 @@ public class Buu_Controller : MonoBehaviour
             StopWalkingB();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SuAtack();
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SdAtack();
-        if (Input.GetKeyDown(KeyCode.W)) Jump();
-        if (Input.GetKeyDown(KeyCode.S)) Hide();
-        if (Input.GetKeyDown(KeyCode.Alpha3)) LuAtack();
-        if (Input.GetKeyDown(KeyCode.Alpha4)) LdAtack();
+        if (Input.GetKeyDown(KeyCode.O)) SuAtack();
+        if (Input.GetKeyDown(KeyCode.P)) SdAtack();
+        if (Input.GetKeyDown(KeyCode.UpArrow)) Jump();
+        if (Input.GetKeyDown(KeyCode.DownArrow)) Hide();
+        if (Input.GetKeyDown(KeyCode.L)) LuAtack();
+        if (Input.GetKeyDown(KeyCode.K)) LdAtack();
     }
 
     public void Win()
@@ -54,12 +54,12 @@ public class Buu_Controller : MonoBehaviour
 
     public void SdAtack()
     {
-        animator.SetTrigger("SdAtack");
+        animator.SetTrigger("short_atack");
     }
 
     public void SuAtack()
     {
-        animator.SetTrigger("SuAtack");
+        animator.SetTrigger("heavy_atack");
     }
 
     public void WalkF()
@@ -86,12 +86,12 @@ public class Buu_Controller : MonoBehaviour
 
     public void LuAtack()
     {
-        animator.SetTrigger("LuAtack");
+        animator.SetTrigger("low_quick_atack");
     }
 
     public void LdAtack()
     {
-        animator.SetTrigger("LdAtack");
+        animator.SetTrigger("low_heavy_atack");
     }
 
     public void Hide()
