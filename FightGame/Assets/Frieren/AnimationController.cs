@@ -5,6 +5,7 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     public GameObject Player;
+    public GameObject Enemy;
     public GameObject ProjectilePrefab;
     public Transform ProjectileSpawnPoint;
     public float WalkSpeed = 2f;
@@ -13,10 +14,12 @@ public class AnimationController : MonoBehaviour
     public float InitialAngle = 0f; 
 
     private Animator animator;
+    private Animator EnemyAnimator;
 
     void Start()
     {
         animator = Player.GetComponent<Animator>();
+        EnemyAnimator = Enemy.GetComponent<Animator>();
     }
 
     void Update()
@@ -45,6 +48,11 @@ public class AnimationController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S)) Hide();
         if (Input.GetKeyDown(KeyCode.Alpha3)) StartCoroutine(LuAtack());
         if (Input.GetKeyDown(KeyCode.Alpha4)) StartCoroutine(LdAtack());
+
+        if (EnemyAnimator.GetBool("Lose") == true)
+        {
+            Win();
+        }
     }
 
     public void Win()
@@ -52,6 +60,13 @@ public class AnimationController : MonoBehaviour
         animator.SetBool("Win", true);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Killer"))
+        {
+            Lose();
+        }
+    }
     public void Lose()
     {
         animator.SetBool("Lose", true);
@@ -104,7 +119,7 @@ public class AnimationController : MonoBehaviour
         yield return new WaitForSeconds(ProjectileDelay);
 
         // Disparo diagonal hacia abajo
-        ShootProjectile(new Vector3(0, -0.5f, 1));
+        ShootProjectile(new Vector3(0, -0., 1));
     }
 
     public void Hide()
