@@ -49,7 +49,7 @@ public class AnimationController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha3)) StartCoroutine(LuAtack());
         if (Input.GetKeyDown(KeyCode.Alpha4)) StartCoroutine(LdAtack());
 
-        if (EnemyAnimator.GetBool("Lose") == true)
+        if (EnemyAnimator.GetBool("loose") == true)
         {
             Win();
         }
@@ -62,7 +62,7 @@ public class AnimationController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Killer"))
+        if (other.gameObject.CompareTag("Buu"))
         {
             Lose();
         }
@@ -119,7 +119,7 @@ public class AnimationController : MonoBehaviour
         yield return new WaitForSeconds(ProjectileDelay);
 
         // Disparo diagonal hacia abajo
-        ShootProjectile(new Vector3(0, -0., 1));
+        ShootProjectile(new Vector3(0, -0.4f, 1));
     }
 
     public void Hide()

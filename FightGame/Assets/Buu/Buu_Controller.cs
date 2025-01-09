@@ -5,13 +5,16 @@ using UnityEngine;
 public class Buu_Controller : MonoBehaviour
 {
     public GameObject Player;
+    public GameObject Enemy;
     public float WalkSpeed = 2f;
 
     private Animator animator;
+    private Animator EnemyAnimator;
 
     void Start()
     {
         animator = Player.GetComponent<Animator>();
+        EnemyAnimator = Enemy.GetComponent<Animator>();
     }
 
     void Update()
@@ -40,8 +43,19 @@ public class Buu_Controller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.DownArrow)) Hide();
         if (Input.GetKeyDown(KeyCode.L)) LuAtack();
         if (Input.GetKeyDown(KeyCode.K)) LdAtack();
+        
+        if (EnemyAnimator.GetBool("Lose") == true)
+        {
+            Win();
+        }
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Killer"))
+        {
+            Lose();
+        }
+    }
     public void Win()
     {
         animator.SetBool("win", true);
