@@ -5,7 +5,12 @@ using UnityEngine;
 public class AnimationController : MonoBehaviour
 {
     public GameObject Player;
-    public float WalkSpeed = 2f; 
+    public GameObject ProjectilePrefab;
+    public Transform ProjectileSpawnPoint;
+    public float WalkSpeed = 2f;
+    public float ProjectileSpeed = 10f;
+    public float ProjectileDelay = 0.19f;
+    public float InitialAngle = 0f; 
 
     private Animator animator;
 
@@ -38,8 +43,8 @@ public class AnimationController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2)) SdAtack();
         if (Input.GetKeyDown(KeyCode.W)) Jump();
         if (Input.GetKeyDown(KeyCode.S)) Hide();
-        if (Input.GetKeyDown(KeyCode.Alpha3)) LuAtack();
-        if (Input.GetKeyDown(KeyCode.Alpha4)) LdAtack();
+        if (Input.GetKeyDown(KeyCode.Alpha3)) StartCoroutine(LuAtack());
+        if (Input.GetKeyDown(KeyCode.Alpha4)) StartCoroutine(LdAtack());
     }
 
     public void Win()
@@ -84,14 +89,22 @@ public class AnimationController : MonoBehaviour
         animator.SetBool("WalkB", false);
     }
 
-    public void LuAtack()
+    public IEnumerator LuAtack()
     {
         animator.SetTrigger("LuAtack");
+        yield return new WaitForSeconds(ProjectileDelay);
+
+        // Disparo completamente horizontal
+        ShootProjectile(Vector3.forward);
     }
 
-    public void LdAtack()
+    public IEnumerator LdAtack()
     {
         animator.SetTrigger("LdAtack");
+        yield return new WaitForSeconds(ProjectileDelay);
+
+        // Disparo diagonal hacia abajo
+        ShootProjectile(new Vector3(0, -0.5f, 1));
     }
 
     public void Hide()
@@ -102,5 +115,30 @@ public class AnimationController : MonoBehaviour
     public void Jump()
     {
         animator.SetTrigger("Jump");
+    }
+
+    private void ShootProjectile(Vector3 direction)
+    {
+        if (ProjectilePrefab != null && ProjectileSpawnPoint != null)
+        {
+            // Normalizar la dirección para garantizar magnitud consistente
+            direction = direction.normalized;
+
+            // Calcular la rotación para que apunte en la dirección correcta
+            Quaternion rotation = Quaternion.LookRotation(direction) * Quaternion.Euler(90, 0, 0); // Añadir 90 grados en el eje X
+
+            // Instanciar el proyectil en el punto de generación con la rotación ajustada
+            GameObject projectile = Instantiate(ProjectilePrefab, ProjectileSpawnPoint.position, rotation);
+
+            // Aplicar movimiento al proyectil
+            Rigidbody rb = projectile.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.velocity = direction * ProjectileSpeed;
+            }
+
+            // Opcional: Destruir el proyectil después de un tiempo
+            Destroy(projectile, 5f);
+        }
     }
 }
