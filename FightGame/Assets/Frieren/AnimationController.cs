@@ -48,6 +48,7 @@ public class AnimationController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.S)) Hide();
         if (Input.GetKeyDown(KeyCode.Alpha3)) StartCoroutine(LuAtack());
         if (Input.GetKeyDown(KeyCode.Alpha4)) StartCoroutine(LdAtack());
+        if (Input.GetKeyDown(KeyCode.M)) animator.SetBool("Lose", true);
 
         if (EnemyAnimator.GetBool("loose") == true)
         {
@@ -60,13 +61,13 @@ public class AnimationController : MonoBehaviour
         animator.SetBool("Win", true);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Buu"))
-        {
-            Lose();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Buu"))
+    //    {
+    //        Lose();
+    //    }
+    //}
     public void Lose()
     {
         animator.SetBool("Lose", true);
@@ -153,7 +154,7 @@ public class AnimationController : MonoBehaviour
             }
 
             // Opcional: Destruir el proyectil después de un tiempo
-            Destroy(projectile, 5f);
+            Destroy(projectile, 1.0f);
         }
     }
 }
