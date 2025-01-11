@@ -1,0 +1,12 @@
+idle 1-37
+walk front 42-81
+walk back 88-122
+win 123-176
+jump 177-217
+heavy atack 218-242
+low quick 243-257
+wait anim 258-294
+short atack 295-314
+low heavy 315-333
+lose 334-363
+block up 367-372
